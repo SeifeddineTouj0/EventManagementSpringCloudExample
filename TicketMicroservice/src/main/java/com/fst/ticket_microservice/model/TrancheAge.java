@@ -1,10 +1,11 @@
 package com.fst.ticket_microservice.model;
 
 
-public enum TrancheAge {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public enum TrancheAge {
     ENFANT,
-    ADOCLESCENT,
-    ADULT
+    ADULTE,
+    ADOELSCENT
 
 }

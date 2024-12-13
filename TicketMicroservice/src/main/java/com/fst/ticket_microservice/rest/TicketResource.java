@@ -7,14 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -55,6 +48,15 @@ public class TicketResource {
     public ResponseEntity<Void> deleteTicket(@PathVariable(name = "idTicket") final Long idTicket) {
         ticketService.delete(idTicket);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<TicketDTO>> ajouterTicketsEtAffecterAEvenementEtInternaute(
+            @RequestBody List<TicketDTO> ticketDTOs,
+            @RequestParam Long idEvenement,
+            @RequestParam Long idInternaute) {
+        List<TicketDTO> savedTickets = ticketService.ajouterTicketsEtAffecterAEvenementEtInternaute(ticketDTOs, idEvenement, idInternaute);
+        return ResponseEntity.ok(savedTickets);
     }
 
 }

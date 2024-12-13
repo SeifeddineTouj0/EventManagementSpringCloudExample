@@ -6,7 +6,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class EvenementDTO {
@@ -22,6 +21,7 @@ public class EvenementDTO {
 
     private LocalDate dateEvenement;
 
-    private List<Long> categories;
+    private List<CategorieDTO> categories; // Updated to use nested DTOs
+
 
 }

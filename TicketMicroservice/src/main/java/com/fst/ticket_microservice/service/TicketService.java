@@ -38,6 +38,14 @@ public class TicketService {
 
     public Long create(final TicketDTO ticketDTO) {
         final Ticket ticket = new Ticket();
+        Evenement evenement = evenementRepository.findById(ticketDTO.getEvenements())
+                .orElseThrow(() -> new NotFoundException("Evenement not found"));
+
+        if(evenement.getNbPlacesRestantes()-1<0){
+            throw new java.lang.UnsupportedOperationException("nombre de places demandées indisponible");
+        }
+        evenement.setNbPlacesRestantes(evenement.getNbPlacesRestantes()-1);
+
         mapToEntity(ticketDTO, ticket);
         return ticketRepository.save(ticket).getIdTicket();
     }
@@ -53,12 +61,41 @@ public class TicketService {
         ticketRepository.deleteById(idTicket);
     }
 
+    public List<TicketDTO> ajouterTicketsEtAffecterAEvenementEtInternaute(List<TicketDTO> ticketDTOs,
+                                                                          Long idEvenement,
+                                                                          Long idInternaute) {
+        // Fetch the associated Evenement and Internaute
+        Evenement evenement = evenementRepository.findById(idEvenement)
+                .orElseThrow(() -> new NotFoundException("Evenement not found"));
+
+        if(evenement.getNbPlacesRestantes()-ticketDTOs.stream().count()<0){
+            throw new java.lang.UnsupportedOperationException("nombre de places demandées indisponible");
+        }
+        evenement.setNbPlacesRestantes(evenement.getNbPlacesRestantes()-ticketDTOs.stream().count());
+
+        // Map DTOs to entities and assign the evenement and internaute
+        List<Ticket> tickets = ticketDTOs.stream().map(ticketDTO -> {
+            Ticket ticket = mapToEntity(ticketDTO, new Ticket());
+            ticket.setEvenements(evenement);
+            ticket.setIdInternaute(idInternaute);
+            return ticket;
+        }).toList();
+
+        // Save all tickets
+        List<Ticket> savedTickets = ticketRepository.saveAll(tickets);
+
+        // Convert saved entities back to DTOs and return
+        return savedTickets.stream().map(ticket -> mapToDTO(ticket, new TicketDTO())).toList();
+    }
+
+
     private TicketDTO mapToDTO(final Ticket ticket, final TicketDTO ticketDTO) {
         ticketDTO.setIdTicket(ticket.getIdTicket());
         ticketDTO.setCodeTicket(ticket.getCodeTicket());
         ticketDTO.setPrixTicket(ticket.getPrixTicket());
-        ticketDTO.setTypeTicket(ticket.getTypeTicket());
         ticketDTO.setEvenements(ticket.getEvenements() == null ? null : ticket.getEvenements().getIdEvenement());
+        ticketDTO.setTypeTicket(ticket.getTypeTicket());
+        ticketDTO.setIdInternaute(ticket.getIdInternaute());
         return ticketDTO;
     }
 
@@ -66,10 +103,12 @@ public class TicketService {
         ticket.setCodeTicket(ticketDTO.getCodeTicket());
         ticket.setPrixTicket(ticketDTO.getPrixTicket());
         ticket.setTypeTicket(ticketDTO.getTypeTicket());
+        ticket.setIdInternaute(ticketDTO.getIdInternaute());
         final Evenement evenements = ticketDTO.getEvenements() == null ? null : evenementRepository.findById(ticketDTO.getEvenements())
                 .orElseThrow(() -> new NotFoundException("evenements not found"));
         ticket.setEvenements(evenements);
         return ticket;
     }
+
 
 }

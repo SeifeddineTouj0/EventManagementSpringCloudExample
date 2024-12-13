@@ -60,7 +60,7 @@ public class CategorieService {
     }
 
     private CategorieDTO mapToDTO(final Categorie categorie, final CategorieDTO categorieDTO) {
-        categorieDTO.setIdCategorie(categorie.getIdCategorie());
+        //categorieDTO.setIdCategorie(categorie.getIdCategorie());
         categorieDTO.setCodeCategorie(categorie.getCodeCategorie());
         categorieDTO.setNomCategorie(categorie.getNomCategorie());
         return categorieDTO;

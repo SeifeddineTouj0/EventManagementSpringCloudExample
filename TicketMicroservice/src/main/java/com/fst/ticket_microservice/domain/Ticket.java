@@ -39,4 +39,6 @@ public class Ticket {
     @JoinColumn(name = "evenements_id", nullable = false)
     private Evenement evenements;
 
+    private Long idInternaute;
+
 }

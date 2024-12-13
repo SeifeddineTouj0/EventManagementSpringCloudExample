@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class CategorieDTO {
 
-    private Long idCategorie;
+    //private Long idCategorie;
 
     @Size(max = 255)
     private String codeCategorie;

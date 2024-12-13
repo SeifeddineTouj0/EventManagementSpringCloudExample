@@ -22,4 +22,6 @@ public class TicketDTO {
     @NotNull
     private Long evenements;
 
+    private Long idInternaute;
+
 }
