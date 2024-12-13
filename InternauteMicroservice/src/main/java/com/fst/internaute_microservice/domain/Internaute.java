@@ -19,7 +19,7 @@ public class Internaute {
     private Long idInternaute;
 
     @Column
-    private Long identifiant;
+    private String identifiant;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -33,11 +33,11 @@ public class Internaute {
         this.idInternaute = idInternaute;
     }
 
-    public Long getIdentifiant() {
+    public String getIdentifiant() {
         return identifiant;
     }
 
-    public void setIdentifiant(final Long identifiant) {
+    public void setIdentifiant(final String identifiant) {
         this.identifiant = identifiant;
     }
 

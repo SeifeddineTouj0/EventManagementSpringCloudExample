@@ -4,7 +4,7 @@ package com.fst.internaute_microservice.model;
 public class InternauteDTO {
 
     private Long idInternaute;
-    private Long identifiant;
+    private String identifiant;
     private TrancheAge trancheAge;
 
     public Long getIdInternaute() {
@@ -15,11 +15,11 @@ public class InternauteDTO {
         this.idInternaute = idInternaute;
     }
 
-    public Long getIdentifiant() {
+    public String getIdentifiant() {
         return identifiant;
     }
 
-    public void setIdentifiant(final Long identifiant) {
+    public void setIdentifiant(final String identifiant) {
         this.identifiant = identifiant;
     }
 
